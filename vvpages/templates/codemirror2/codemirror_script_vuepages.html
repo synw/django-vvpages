@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<link rel="stylesheet" media="screen, projection" href="{% static 'codemirror2/addon/display/fullscreen.css' %}" />
+<link rel="stylesheet" media="screen, projection" href="{% static 'codemirror2/theme/blackboard.css' %}" />
+<script src="{% static 'codemirror2/addon/display/fullscreen.js' %}"></script>
+<script src="{% static 'codemirror2/addon/search/match-highlighter.js' %}"></script>
+<script src="{% static 'codemirror2/addon/search/searchcursor.js' %}"></script>
+<script src="{% static 'codemirror2/addon/selection/active-line.js' %}"></script>
+<script src="{% static 'codemirror2/keymap/vim.js' %}"></script>
+<script src="{% static 'codemirror2/keymap/emacs.js' %}"></script>
+<script src="{% static 'codemirror2/addon/edit/closetag.js' %}"></script>
+<script src="{% static 'codemirror2/addon/fold/xml-fold.js' %}"></script>
+<script type="text/javascript">
+    var contentid = document.getElementById("id_content");
+    var headerid = document.getElementById("id_header");
+    var subheaderid = document.getElementById("id_subheader");
+    var footerid = document.getElementById("id_footer");
+    var content = CodeMirror.fromTextArea(contentid, {{ options|safe }});
+    var header = CodeMirror.fromTextArea(headerid, {{ options|safe }});
+    var subheader = CodeMirror.fromTextArea(subheaderid, {{ options|safe }});
+    var footer = CodeMirror.fromTextArea(footerid, {{ options|safe }});
+	content.setSize(1170, 625);
+	header.setSize(1170, 625);
+	subheader.setSize(1170, 625);
+	footer.setSize(1170, 625);
+</script>
+
+
