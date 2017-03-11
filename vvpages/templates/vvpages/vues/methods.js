@@ -4,7 +4,6 @@ loadHtml: function(resturl){
 	promise.get(resturl,{},{"Accept":"application/json"}).then(function(error, data, xhr) {
 	    if (error) {console.log('Error ' + xhr.status);return;}
 	    {% if isdebug is True %}console.log("Raw data: "+data);{% endif %}
-	    console.log("DEBUG {{ debug }}");
 	    var data = JSON.parse(data);
 	    app.content = data.content;
 	    app.title = data.title;
