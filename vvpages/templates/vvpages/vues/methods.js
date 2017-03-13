@@ -1,19 +1,22 @@
-{% load vv_tags %}
-
-isInStorage: function(resturl) {
-	var url = store.get(resturl);
-	if (url == undefined) {
-		return false
-	}
-	return true
-},
-loadFromStorage: function(resturl) {
-	var data = store.get(resturl);
-	return data
-},
+{% load vv_tags vvpages_tags %}
+{% use_local_storage as storage %}
+{% if storage %}
+	isInStorage: function(resturl) {
+		var url = store.get(resturl);
+		if (url == undefined) {
+			return false
+		}
+		return true
+	},
+	loadFromStorage: function(resturl) {
+		var data = store.get(resturl);
+		return data
+	},
+{% endif %}
 loadHtml: function(resturl){
 	var fetch = true;
 	var data = {};
+	{% if storage %}
 	if (this.isInStorage(resturl) === true) {
 		//console.log("Data in storage: "+resturl);
 		data = this.loadFromStorage(resturl);
@@ -34,28 +37,36 @@ loadHtml: function(resturl){
 				//console.log("Navigator online");
 			}
 		}
-	} 
+	}
+	{% endif %}
 	if (fetch === true){
-		//console.log("Fetchind data from "+resturl+" //"+JSON.stringify(data));
+		//console.log("Fetchind data from "+resturl+" //");
 		promise.get(resturl,{},{"Accept":"application/json"}).then(function(error, data, xhr) {
 		    if (error) {
 		    	console.log('Error ' + xhr.status);return;
 		    }
 		    {% if isdebug is True %}console.log("Raw data: "+data);{% endif %}
 		    data = JSON.parse(data);
+			app.flushContent();
+			app.content = data.content;
+		    app.title = data.title;
+		    top.document.title = data.title;
+		    var now = new Date();
+			var exp = new Date();
+			var mins = 1;
+			var duration = 1000*60*mins;
+			exp.setTime(now.getTime() + (duration));
+			data.expires = exp;
+			{% if storage %}
+				//console.log("Setting key in local storage");
+				store.set(resturl, data);
+			{% endif %}
 		});
-		var now = new Date();
-		var exp = new Date();
-		var mins = 24*60;
-		var duration = 1000*60*mins;
-		exp.setTime(oldDateObj.getTime() + (duration));
-		data.expires = exp;
-		store.set(resturl, data);
+	} else {
+		app.content = data.content;
+	    app.title = data.title;
+	    top.document.title = data.title;
 	}
-	app.flushContent();
-	app.content = data.content;
-    app.title = data.title;
-    top.document.title = data.title;
 	return
 },
 loadChunk: function (resturl, title){

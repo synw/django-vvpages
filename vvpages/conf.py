@@ -6,9 +6,11 @@ from django.contrib.auth.models import User
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
 
-USE_REVERSION=getattr(settings, 'VUEPAGES_USE_REVERSION', "reversion" in settings.INSTALLED_APPS)
+USE_REVERSION=getattr(settings, 'VVPAGES_USE_REVERSION', "reversion" in settings.INSTALLED_APPS)
 
-BASE_TEMPLATE_PATH = getattr(settings, 'VUEPAGES_BASE_TEMPLATE_PATH', 'base.html')
+BASE_TEMPLATE_PATH = getattr(settings, 'VVPAGES_BASE_TEMPLATE_PATH', 'base.html')
 
-CODE_MODE = getattr(settings, 'VUEPAGES_CODE_MODE', False)
-CODEMIRROR_KEYMAP = getattr(settings, 'VUEPAGES_CODEMIRROR_KEYMAP', 'default')
+CODE_MODE = getattr(settings, 'VVPAGES_CODE_MODE', False)
+CODEMIRROR_KEYMAP = getattr(settings, 'VVPAGES_CODEMIRROR_KEYMAP', 'default')
+
+LOCAL_STORAGE = getattr(settings, 'VVPAGES_LOCAL_STORAGE', True)
