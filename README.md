@@ -15,6 +15,7 @@ INSTALLED_APPS:
 "ckeditor_uploader",
 "codemirror2",
 "jsoneditor",
+"vv",
 "vvpages",
   ```
 
@@ -27,8 +28,12 @@ pip install pytz django-jsoneditor djangorestframework django-jsonfield django-m
 Set th urls:
 
   ```python
-url(r'^pages/',include('vvpages.urls')),
-url(r'^ckeditor/',include('ckeditor_uploader.urls')),
+urlpatterns = [
+	url(r'^pages/',include('vvpages.urls')),
+	url(r'^ckeditor/',include('ckeditor_uploader.urls')),
+]
+
+urlpatterns.append(url(r'^',include('vv.urls')))
   ```
   
 Migrate
