@@ -38,6 +38,12 @@ urlpatterns.append(url(r'^',include('vv.urls')))
   
 Migrate
 
+Add this to your main template:
+
+  ```html
+<div id="content" v-html="content"></div>
+  ```
+
 ### Settings
 
 Example settings for ckeditor:
