@@ -65,3 +65,7 @@ CKEDITOR_CONFIGS = {
     },
 }
   ```
+ 
+ ## Installer and demo
+
+You can use the [Django Mogo](https://github.com/synw/django-mogo) installer script to get a demo or an install
