@@ -3,7 +3,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save, post_delete
-from jsoneditor.fields.django_jsonfield import JSONField
+from jsonfield import JSONField
 from mptt.models import TreeForeignKey, MPTTModel
 from vvpages.conf import USER_MODEL
 from vvpages.signals import build_assets, build_assets_del
