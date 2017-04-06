@@ -38,7 +38,7 @@ class Page(MPTTModel, Seo):
         return self.url
     
     def __unicode__(self):
-        return unicode(self.title)
+        return self.title
 
     
 post_save.connect(build_assets, sender=Page)
