@@ -35,7 +35,7 @@ class PageAdminCodeForm(forms.ModelForm):
                                      'theme':'blackboard',
                                      #'fullScreen':'true',
                                      },
-                                     script_template='codemirror2/codemirror_script.html',
+                                     script_template='codemirror2/codemirror_script_vvpages.html',
                                      modes=['css', 'xml', 'javascript', 'htmlmixed'],
                                      )
           

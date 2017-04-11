@@ -39,3 +39,20 @@ class SitemapRestView(TemplateView):
         nodes = root_node.get_descendants(include_self=True).filter(published=True)
         context['nodes'] = nodes
         return context
+    
+class PageWizardView(TemplateView):
+    template_name = "vvpages/wizard/index.html"
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm('alapage.change_page'):
+            raise Http404
+        return super(PageWizardView, self).dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super(PageWizardView, self).get_context_data(**kwargs)
+        context["template_to_extend"] = BASE_TEMPLATE_PATH
+        root_node, created = Page.objects.get_or_create(url="/")
+        nodes = root_node.get_descendants(include_self=True)
+        context['nodes'] = nodes
+        return context    
+

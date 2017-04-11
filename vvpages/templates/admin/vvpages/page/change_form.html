@@ -27,9 +27,6 @@
 {% block object-tools %}
 {% if change %}{% if not is_popup %}
 <script type="text/javascript">
-	function fs() {
-		elmirror.setOption("fullScreen", true);
-	}
 	document.onkeydown = function(evt) {
 	    evt = evt || window.event;
 	    var isEscape = false;
@@ -42,7 +39,12 @@
 	    	elmirror.setOption("fullScreen", false);
 	    }
 	};
+	setTimeout(function() { django.jQuery("#popmsg").fadeOut() }, 2000);
 </script>
+<div id="popmsg" style="position:absolute;top:1em;right:1em;padding:1em;border:1px solid grey;
+	z-index:1000;background-color:white;border-radius:0.5rem">
+	{% trans "Use [ <b>Escape</b> ] to quit fullscreen" %}
+</div>
   <ul class="object-tools">
     {% block object-tools-items %}
     <li>
