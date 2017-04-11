@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save, post_delete
 from jsonfield import JSONField
 from mptt.models import TreeForeignKey, MPTTModel
-from vvpages.conf import USER_MODEL
+from vvpages.conf import USER_MODEL, EDITORS
 from vvpages.signals import build_assets, build_assets_del
 
 
@@ -39,6 +39,11 @@ class Page(MPTTModel, Seo):
     
     def __unicode__(self):
         return self.title
+    
+    
+class UserPreference(models.Model):
+    user = models.ForeignKey(USER_MODEL, related_name='+', null=True, on_delete=models.SET_NULL, verbose_name=_(u'User'))
+    editor = models.CharField(_(u'Editor'), max_length=60, default=EDITORS[0][0], choices=EDITORS)
 
     
 post_save.connect(build_assets, sender=Page)
