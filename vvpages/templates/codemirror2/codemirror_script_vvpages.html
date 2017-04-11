@@ -14,5 +14,17 @@
         elmirror = CodeMirror.fromTextArea(elem, {{ options|safe }});
     })();
 	elmirror.setSize(1130, 510);
-	elmirror.setOption("fullScreen", true);
+	var path = window.location.href;
+	hist = path.split('/');
+	cfs = true;
+	for (i=0;i<hist.length;i++) {
+		if (hist[i] === "history") {
+			cfs = false;
+			break
+		}
+	}
+	if (cfs === true) {
+		elmirror.setOption("fullScreen", true);
+	}
+	var codemode = true;
 </script>

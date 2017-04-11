@@ -1,5 +1,5 @@
 {% extends "admin/base_site.html" %}
-{% load i18n admin_urls static admin_modify vvpages_tags %}
+{% load i18n admin_urls static admin_modify %}
 
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
@@ -26,25 +26,6 @@
 {% block content %}<div id="content-main">
 {% block object-tools %}
 {% if change %}{% if not is_popup %}
-<script type="text/javascript">
-	document.onkeydown = function(evt) {
-	    evt = evt || window.event;
-	    var isEscape = false;
-	    if ("key" in evt) {
-	        isEscape = (evt.key == "Escape" || evt.key == "Esc");
-	    } else {
-	        isEscape = (evt.keyCode == 27);
-	    }
-	    if (isEscape) {
-	    	elmirror.setOption("fullScreen", false);
-	    }
-	};
-	setTimeout(function() { django.jQuery("#popmsg").fadeOut() }, 2000);
-</script>
-<div id="popmsg" style="position:absolute;top:1em;right:1em;padding:1em;border:1px solid grey;
-	z-index:1000;background-color:white;border-radius:0.5rem">
-	{% trans "Use [ <b>Escape</b> ] to quit fullscreen" %}
-</div>
   <ul class="object-tools">
     {% block object-tools-items %}
     <li>
@@ -85,17 +66,17 @@
 {% endfor %}
 {% endblock %}
 
-{% get_edit_mode as edit_mode %}
-
 {% block after_related_objects %}{% endblock %}
 
 {% block submit_buttons_bottom %}
+
+{% comment %}
 	{% if request.GET.m == "fs" %}
 	<div style="z-index:100000;position:fixed;top:0.4em;right:0.5em">
 		<input type="submit" style="padding:0.3em 0.5em 0.2em 0.5em !important" name="_inline_" value="{% trans 'Save' %}" />
 	</div>
 	{% endif %}
-	{% if edit_mode == "code" and request.GET.m == "fs" %}
+	{% if editor == "codemirror" and request.GET.m == "fs" %}
 	<div style="z-index:100000;position:fixed;top:0.9em;right:7.8em">
 		<a class="toolbar-btn" href="javascript:elmirror.setOption('fullScreen', false)">{% trans 'Close' %}</a>
 	</div>
@@ -104,6 +85,8 @@
 	<div style="float:right;">
 		<input type="submit" name="_inline_" class="default" value="{% trans 'Save and view page' %}" />
 	</div>
+{% endcomment %}
+
 {% endblock %}
 
 {% block admin_change_form_document_ready %}
@@ -114,24 +97,38 @@
                 data-model-name="{{ opts.model_name }}"
             {% endif %}>
     </script>
-	{% if request.GET.m == "fs" and edit_mode == "default" %}
-	<script type="text/javascript">
-	   CKEDITOR.on('instanceReady',
-	   		function( evt ) {
-	   		  	var instanceName = 'id_content';
-	   		  	var editor = CKEDITOR.instances[instanceName];
-	   		  	{% if request.GET.m == "fs" %}
-	   		  	editor.execCommand('maximize');
-	   		  	{% endif %}
-	   	   	}
-	   	 );
-	   </script>
-	{% endif %}
-	{% if request.GET.m == "fs" and edit_mode == "code" %}
-		<script type="text/javascript">elmirror.setOption("fullScreen", true);</script>
-	{% endif %}
+    <script type="text/javascript">
+		{% if editor == "codemirror" %}
+			document.onkeydown = function(evt) {
+			    evt = evt || window.event;
+			    var isEscape = false;
+			    if ("key" in evt) {
+			        isEscape = (evt.key == "Escape" || evt.key == "Esc");
+			    } else {
+			        isEscape = (evt.keyCode == 27);
+			    }
+			    if (isEscape) {
+			    	elmirror.setOption("fullScreen", false);
+			    }
+			}
+			setTimeout(function() { django.jQuery("#popmsg").fadeOut() }, 2000);
+		{% elif editor == "ckeditor" %}
+			CKEDITOR.on('instanceReady',
+				function( evt ) {
+					var instanceName = 'id_content';
+				  	var editor = CKEDITOR.instances[instanceName];
+		   		  	editor.execCommand('maximize');  	
+				}
+			);
+		{% endif %}
+	</script>
 {% endblock %}
-
+{% if editor == "codemirror" %}
+	<div id="popmsg" style=";position:absolute;top:1em;right:1em;padding:1em;border:1px solid grey;
+		z-index:1000;background-color:white;border-radius:0.5rem;">
+		{% trans "Use [ <b>Escape</b> ] to quit fullscreen" %}
+	</div>
+{% endif %}
 {# JavaScript for prepopulated fields #}
 {% prepopulated_fields_js %}
 

@@ -5,6 +5,10 @@ Vue.js pages management for [Django Vite Vue](https://github.com/synw/django-vit
 ## Install
 
 Install Vite Vue. Clone
+
+  ```python
+pip install djangorestframework django-ckeditor django-codemirror2
+  ```
  
 INSTALLED_APPS:
 
@@ -14,7 +18,6 @@ INSTALLED_APPS:
 "ckeditor",
 "ckeditor_uploader",
 "codemirror2",
-"jsoneditor",
 "vv",
 "vvpages",
   ```
@@ -69,3 +72,8 @@ CKEDITOR_CONFIGS = {
  ## Installer and demo
 
 You can use the [Django Mogo](https://github.com/synw/django-mogo) installer script to get a demo or an install
+
+ ## Todo
+ 
+ - [ ] Object level permissions
+ - [ ] Preview before commit
