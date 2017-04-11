@@ -48,10 +48,10 @@ loadHtml: function(resturl){
 		    {% if isdebug is True %}console.log("Raw data: "+data);{% endif %}
 		    data = JSON.parse(data);
 			app.flush();
-			app.content = data.content;
-		    app.title = data.title;
-		    top.document.title = data.title;
-		    app.activate(["content", "title"]);
+			app.pageContent = data.content;
+		    app.pageTitle = data.title;
+		    top.document.pageTitle = data.title;
+		    app.activate(["pageContent", "pageTitle"]);
 		    var now = new Date();
 			var exp = new Date();
 			var mins = 1;
@@ -62,25 +62,31 @@ loadHtml: function(resturl){
 				//console.log("Setting key in local storage");
 				store.set(resturl, data);
 			{% endif %}
+			{% if perms.vvpages.change_page %}
+		    	app.adminPageUrl ="/admin/vvpages/page/"+data.pk+"/change/";
+		    {% endif %}
 		});
 	} else {
 		app.flush();
-		app.content = data.content;
-	    app.title = data.title;
-	    top.document.title = data.title;
-	    app.activate(["content", "title"]);
+		app.pageContent = data.content;
+	    app.pageTitle = data.title;
+	    top.document.pageTitle = data.title;
+	    app.activate(["pageContent", "pageTitle"]);
+	    {% if perms.vvpages.change_page %}
+	    	app.adminPageUrl ="/admin/vvpages/page/"+data.pk+"/change/";
+	    {% endif %}
 	}
 	return
 },
-loadChunk: function (resturl, title){
+loadChunk: function (resturl, pageTitle){
 	promise.get(resturl).then(function(error, data, xhr) {
 	    if (error) {console.log('Error ' + xhr.status);return;}
 	    {% if isdebug is True %}console.log("Raw chunk: "+data);{% endif %}
 	    app.flush();
-	    app.content = data;
-	    app.title = title;
+	    app.pageContent = data;
+	    app.pageTitle = title;
 	    top.document.title = title;
-	    app.activate(["content", "title"]);
+	    app.activate(["pageContent", "pageTitle"]);
 	});
 	return
 },

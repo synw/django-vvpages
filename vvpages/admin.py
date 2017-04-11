@@ -70,7 +70,7 @@ class PageAdmin(MPTTModelAdmin, VersionAdmin):
         # for inline editing
         if '_inline_' in request.POST:
             url = obj.url.replace("%2F", "/")
-            return redirect('vvpages-page', url=url)
+            return redirect(url)
         else:
             return super(PageAdmin, self).response_change(request, obj)
         
