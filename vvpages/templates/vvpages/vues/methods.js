@@ -78,7 +78,7 @@ loadHtml: function(resturl){
 	}
 	return
 },
-loadChunk: function (resturl, pageTitle){
+loadChunk: function (resturl, title){
 	promise.get(resturl).then(function(error, data, xhr) {
 	    if (error) {console.log('Error ' + xhr.status);return;}
 	    {% if isdebug is True %}console.log("Raw chunk: "+data);{% endif %}
