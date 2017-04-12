@@ -4,8 +4,7 @@ from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from vvpages.models import Page
 from vvpages.conf import CODE_MODE, CODEMIRROR_KEYMAP
-if CODE_MODE == True:
-    from codemirror2.widgets import CodeMirrorEditor
+from codemirror2.widgets import CodeMirrorEditor
 
 
 class PageAdminWysiForm(forms.ModelForm):
