@@ -49,9 +49,8 @@ loadHtml: function(resturl){
 		    data = JSON.parse(data);
 			app.flush();
 			app.pageContent = data.content;
-		    app.pageTitle = data.title;
-		    top.document.pageTitle = data.title;
-		    app.activate(["pageContent", "pageTitle"]);
+		    top.document.title = data.title;
+		    app.activate(["pageContent"]);
 		    var now = new Date();
 			var exp = new Date();
 			var mins = 1;
@@ -69,24 +68,22 @@ loadHtml: function(resturl){
 	} else {
 		app.flush();
 		app.pageContent = data.content;
-	    app.pageTitle = data.title;
-	    top.document.pageTitle = data.title;
-	    app.activate(["pageContent", "pageTitle"]);
+	    top.document.title = data.title;
+	    app.activate(["pageContent"]);
 	    {% if perms.vvpages.change_page %}
 	    	app.adminPageUrl ="/admin/vvpages/page/"+data.pk+"/change/";
 	    {% endif %}
 	}
 	return
 },
-loadChunk: function (resturl, pageTitle){
+loadChunk: function (resturl, title){
 	promise.get(resturl).then(function(error, data, xhr) {
 	    if (error) {console.log('Error ' + xhr.status);return;}
 	    {% if isdebug is True %}console.log("Raw chunk: "+data);{% endif %}
 	    app.flush();
 	    app.pageContent = data;
-	    app.pageTitle = title;
 	    top.document.title = title;
-	    app.activate(["pageContent", "pageTitle"]);
+	    app.activate(["pageContent"]);
 	});
 	return
 },
