@@ -68,6 +68,24 @@ CKEDITOR_CONFIGS = {
     },
 }
   ```
+
+To use Codemirror instead of Ckeditor:
+
+  ```python
+VVPAGES_CODE_MODE = True
+  ```
+ 
+ ## Templates
+ 
+ An edit button is available to link to the admin from pages:
+ 
+   ```python
+{% if perms.vvpages.change_page %}
+	<a v-bind:href="adminPageUrl">
+		Edit page
+	</a>
+{% endif %}
+  ```
  
  ## Installer and demo
 
