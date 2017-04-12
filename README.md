@@ -11,7 +11,7 @@ Features:
 ## Install
 
   ```bash
-pip install graphene graphene_django djangorestframework pytz django-jsonfield \
+pip install graphene graphene_django djangorestframework pytz django-jsonfield django-filter \
 django-mptt django-ckeditor django-codemirror2 django-reversion
 
 pip install git+https://github.com/synw/django-graphql-utils.git
