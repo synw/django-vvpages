@@ -1,6 +1,6 @@
 # Django VVpages
 
-Vue.js pages management for [Django Vite Vue](https://github.com/synw/django-vitevue)
+Vue.js pages management for [Django Vite Vue](https://github.com/synw/django-vitevue). Edit pages in Ckeditor or Codemirror.
 
 ## Install
 
