@@ -1,19 +1,33 @@
 # Django VVpages
 
-Vue.js pages management for [Django Vite Vue](https://github.com/synw/django-vitevue). Edit pages in Ckeditor or Codemirror.
+Vue.js pages management for [Django Vite Vue](https://github.com/synw/django-vitevue). 
+
+Features:
+
+- Fast: single page app with Vue.js
+- Users can choose which editor to use: Codemirror or Ckeditor
+- Easy to extend: a Graphql endpoint is available
 
 ## Install
 
 Install Vite Vue. Clone
 
-  ```python
-pip install djangorestframework django-ckeditor django-codemirror2
+  ```bash
+pip install graphene graphene_django djangorestframework pytz django-jsonfield \
+django-mptt django-ckeditor django-codemirror2 django-reversion
+
+pip install git+https://github.com/synw/django-graphql-utils.git
+pip install git+https://github.com/synw/django-vitevue.git
   ```
  
 INSTALLED_APPS:
 
   ```python
-"rest_framework",
+"reversion",
+"graphene",
+"graphene_django",
+"restframework",
+"graphql_utils",
 "mptt",
 "ckeditor",
 "ckeditor_uploader",
@@ -22,34 +36,38 @@ INSTALLED_APPS:
 "vvpages",
   ```
 
-Get the dependencies:
+Set the urls:
 
   ```python
-pip install pytz django-jsoneditor djangorestframework django-jsonfield django-mptt django-ckeditor django-codemirror2
-  ```
+from graphene_django.views import GraphQLView
+from graphql_utils.views import TGraphQLView
 
-Set th urls:
-
-  ```python
 urlpatterns = [
-	url(r'^pages/',include('vvpages.urls')),
+	# ...	
 	url(r'^ckeditor/',include('ckeditor_uploader.urls')),
+	# for dev:
+	url(r'^graphiql', GraphQLView.as_view(graphiql=True)),
+	# for production: this view protects the Graphql endpoint with a token
+    url(r'^graphql', TGraphQLView.as_view()),
+    url(r'^pages/',include('vvpages.urls')),
 ]
 
 urlpatterns.append(url(r'^',include('vv.urls')))
   ```
-  
-Migrate
 
-Add this to your main template:
+Note: an automatic sitemap is available at `/map/`
+
+Import the necessary js libs in head:
 
   ```html
-<div id="content" v-html="content"></div>
+<script type="text/javascript" src="{% static 'js/vue.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/page.js' %}"></script>
   ```
+Migrate
 
 ### Settings
 
-Example settings for ckeditor:
+Settings for ckeditor:
 
   ```python
 CKEDITOR_UPLOAD_PATH = 'uploads/'
@@ -77,13 +95,18 @@ VVPAGES_CODE_MODE = True
  
  ## Templates
  
- An edit button is available to link to the admin from pages:
+Main template:
+
+  ```html
+<div v-html="content"></div>
+{% block vues %}{% endblock %}
+  ```
  
-   ```python
+ An edit button is available to link to the admin edit interface from pages:
+ 
+   ```django
 {% if perms.vvpages.change_page %}
-	<a v-bind:href="adminPageUrl">
-		Edit page
-	</a>
+	<a v-bind:href="adminPageUrl">Edit page</a>
 {% endif %}
   ```
  
