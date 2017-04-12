@@ -52,7 +52,7 @@ loadPage: function(url){
 		app.flush();
 		app.activate(["pageContent"]);
 		
-		runQuery(q, action, error, true);
+		runQuery(q, action, error);
 
 	    var now = new Date();
 		var exp = new Date();

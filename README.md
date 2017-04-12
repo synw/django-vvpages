@@ -10,8 +10,6 @@ Features:
 
 ## Install
 
-Install Vite Vue. Clone
-
   ```bash
 pip install graphene graphene_django djangorestframework pytz django-jsonfield \
 django-mptt django-ckeditor django-codemirror2 django-reversion
