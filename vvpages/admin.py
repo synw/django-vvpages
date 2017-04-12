@@ -65,6 +65,18 @@ class PageAdmin(MPTTModelAdmin, VersionAdmin):
         extra_context = {"editor": self.editor}
         return super(PageAdmin, self).change_view(
             request, object_id=object_id, form_url=form_url, extra_context=extra_context)
+        
+    def add_view(self, request, form_url='', extra_context=None):
+        editor = "codemirror"
+        try:
+            pref = UserPreference.objects.get(user=request.user)
+            editor = pref.editor
+        except ObjectDoesNotExist:
+            editor = get_editor()
+        self.editor = editor
+        extra_context = {"editor": self.editor, "add_view": True}
+        return super(PageAdmin, self).add_view(
+            request, form_url=form_url, extra_context=extra_context)
     
     def response_change(self, request, obj):
         # for inline editing

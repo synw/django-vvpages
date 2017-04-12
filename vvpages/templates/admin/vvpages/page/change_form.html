@@ -98,7 +98,14 @@
 			    	elmirror.setOption("fullScreen", false);
 			    }
 			}
-			setTimeout(function() { django.jQuery("#popmsg").fadeOut() }, 2000);
+			var add_view = {% if add_view is True %}true{% else %}false{% endif %};
+			if (add_view === true) {
+				elmirror.setOption("fullScreen", false);
+			}
+			function fs() {
+				elmirror.setOption("fullScreen", true);
+			}
+			//setTimeout(function() { django.jQuery("#popmsg").fadeOut() }, 2000);
 		{% elif editor == "ckeditor" %}
 			CKEDITOR.on('instanceReady',
 				function( evt ) {
@@ -110,12 +117,14 @@
 		{% endif %}
 	</script>
 {% endblock %}
+{% comment %}
 {% if editor == "codemirror" %}
 	<div id="popmsg" style=";position:absolute;top:1em;right:1em;padding:1em;border:1px solid grey;
 		z-index:1000;background-color:white;border-radius:0.5rem;">
 		{% trans "Use [ <b>Escape</b> ] to quit fullscreen" %}
 	</div>
 {% endif %}
+{% endcomment %}
 {# JavaScript for prepopulated fields #}
 {% prepopulated_fields_js %}
 

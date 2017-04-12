@@ -37,7 +37,7 @@ class Page(MPTTModel, Seo):
     def get_absolute_url(self):
         return self.url
     
-    def __unicode__(self):
+    def __str__(self):
         return self.title
     
     
