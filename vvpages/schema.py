@@ -11,7 +11,7 @@ from vvpages.models import Page
 class PageNode(DjangoObjectType):
     class Meta:
         model = Page
-        only_fields = ("url", "title", "content", "extra_data")
+        only_fields = ("pageId", "url", "title", "content", "extra_data")
         filter_fields = {
             'url' : ['exact'],
             'title' : ['icontains', 'istartswith'],

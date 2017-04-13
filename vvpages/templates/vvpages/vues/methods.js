@@ -40,40 +40,44 @@ loadPage: function(url){
 	}
 	{% endif %}
 	if (fetch === true){
-		var q = 'query{page(url:"'+url+'"){url,title,content,extraData}}';
+		var fields = "{% if perms.vvpages.change_page %}pageId,{% endif %}url,title,content,extraData";
+		var q = 'query{page(url:"'+url+'"){'+fields+'}}';
 		function error() {
 			app.pageContent = "<h1>An error has occured</h1>";
 			top.document.title = "Error";
+			app.flush();
+			app.activate(["pageContent"]);
 		}
 		function action(data) {
 			app.pageContent = data.page.content;
 			top.document.title = data.page.title;
+			app.flush();
+			{% if perms.vvpages.change_page %}
+		    	app.adminPageUrl ="/admin/vvpages/page/"+data.page.pageId+"/change/";
+		    	app.activate(["pageContent"]);
+		    {% else %}
+		    	app.activate(["pageContent", "pageAdminUrl"]);
+		    {% endif %}
+		    console.log(app.str(data));
 		}
-		app.flush();
-		app.activate(["pageContent"]);
-		
 		runQuery(q, action, error);
-
-	    var now = new Date();
-		var exp = new Date();
-		var mins = 1;
-		var duration = 1000*60*mins;
-		exp.setTime(now.getTime() + (duration));
-		data.expires = exp;
 		{% if storage %}
+			var now = new Date();
+			var exp = new Date();
+			var mins = 1;
+			var duration = 1000*60*mins;
+			exp.setTime(now.getTime() + (duration));
+			data.expires = exp;
 			//console.log("Setting key in local storage");
 			store.set(url, data);
 		{% endif %}
-		{% if perms.vvpages.change_page %}
-	    	app.adminPageUrl ="/admin/vvpages/page/"+data.pk+"/change/";
-	    {% endif %}
 	} else {
-		app.flush();
-		app.pageContent = data.content;
+		this.flush();
+		this.pageContent = data.content;
 	    top.document.title = data.title;
-	    app.activate(["pageContent"]);
+	    this.activate(["pageContent"]);
 	    {% if perms.vvpages.change_page %}
-	    	app.adminPageUrl ="/admin/vvpages/page/"+data.pk+"/change/";
+	    	this.adminPageUrl ="/admin/vvpages/page/"+data.pk+"/change/";
 	    {% endif %}
 	}
 	return
