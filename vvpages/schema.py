@@ -12,7 +12,7 @@ class PageNode(DjangoObjectType):
         model = Page
         only_fields = ("url", "title", "content", "extra_data")
         filter_fields = {
-            'url' : ['exact']
+            'url' : ['exact'],
             }
         interfaces = (relay.Node, )
 
@@ -27,7 +27,7 @@ class Query(graphene.AbstractType):
         if url is not None:
             try:
                 if url == "/":
-                    page = Page.objects.get_or_create(url=url)
+                    page, created = Page.objects.get_or_create(url=url)
                 else:
                     page = Page.objects.get(url=url)
             except Page.DoesNotExist:
