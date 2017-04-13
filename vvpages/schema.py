@@ -26,7 +26,10 @@ class Query(graphene.AbstractType):
         url = args.get('url')
         if url is not None:
             try:
-                page = Page.objects.get(url=url)
+                if url == "/":
+                    page = Page.objects.get_or_create(url=url)
+                else:
+                    page = Page.objects.get(url=url)
             except Page.DoesNotExist:
                 page = Page.objects.get(url="/404/")
         return page
