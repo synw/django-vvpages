@@ -86,6 +86,13 @@ class PageAdmin(MPTTModelAdmin, VersionAdmin):
         else:
             return super(PageAdmin, self).response_change(request, obj)
         
+    def save_model(self, request, obj, form, change):
+        if obj.pk:
+            obj.pageId = obj.pk
+        obj.editor = request.user
+        super(PageAdmin, self).save_model(request, obj, form, change)
+        return
+        
 
 @admin.register(UserPreference)
 class UserPreferenceAdmin(admin.ModelAdmin):

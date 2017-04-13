@@ -54,9 +54,9 @@ loadPage: function(url){
 			app.flush();
 			{% if perms.vvpages.change_page %}
 		    	app.adminPageUrl ="/admin/vvpages/page/"+data.page.pageId+"/change/";
-		    	app.activate(["pageContent"]);
+		    	app.activate(["pageContent", "adminPageUrl"]);
 		    {% else %}
-		    	app.activate(["pageContent", "pageAdminUrl"]);
+		    	app.activate(["pageContent"]);
 		    {% endif %}
 		    console.log(app.str(data));
 		}
@@ -78,6 +78,9 @@ loadPage: function(url){
 	    this.activate(["pageContent"]);
 	    {% if perms.vvpages.change_page %}
 	    	this.adminPageUrl ="/admin/vvpages/page/"+data.pk+"/change/";
+	    	this.activate(["pageContent", "adminPageUrl"]);
+	    {% else %}
+	    	this.activate(["pageContent"]);
 	    {% endif %}
 	}
 	return
