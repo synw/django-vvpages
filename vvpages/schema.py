@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.utils.translation import ugettext_lazy as _
 import graphene
 from graphene_django.types import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
@@ -26,11 +27,12 @@ class Query(graphene.AbstractType):
         url = args.get('url')
         if url is not None:
             try:
-                if url == "/":
-                    page, created = Page.objects.get_or_create(url=url)
-                else:
-                    page = Page.objects.get(url=url)
+                page = Page.objects.get(url=url)
             except Page.DoesNotExist:
-                page = Page.objects.get(url="/404/")
+                if url == "/":
+                    home = _("Homepage")
+                    page = Page.objects.create(url=url, title=home)
+                else:
+                    page = Page.objects.get(url="/404/")
         return page
         return None
