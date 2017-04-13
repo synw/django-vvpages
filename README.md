@@ -116,15 +116,15 @@ Example: filter on the title field:
 
   ```javascript
 query {
-	allPages(title_Icontains:"home") {
-		edges {
-			node {
-			title,
-			content,
-			extraData
-			}
-		}
-	}
+    allPages(title_Icontains:"home") {
+        edges {
+            node {
+            title,
+            content,
+            extraData
+            }
+        }
+    }
 }
   ```
 
