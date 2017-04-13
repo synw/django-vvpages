@@ -6,7 +6,7 @@ Features:
 
 - Fast: single page app with Vue.js
 - Users can choose which editor to use: Codemirror or Ckeditor
-- Easy to extend: a Graphql endpoint is available
+- Easy to extend: a Graphql endpoint is available [ [cf](#developement) ]
 
 ## Install
 
@@ -107,7 +107,7 @@ Main template:
 	<a v-bind:href="adminPageUrl">Edit page</a>
 {% endif %}
   ```
-  
+
 ## Developement
 
 You can make your own frontend views from graphql queries.
