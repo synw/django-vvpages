@@ -14,17 +14,23 @@ class PageNode(DjangoObjectType):
         only_fields = ("url", "title", "content", "extra_data")
         filter_fields = {
             'url' : ['exact'],
+            'title' : ['icontains', 'istartswith'],
             }
         interfaces = (relay.Node, )
 
 
 class Query(graphene.AbstractType):
+    all_pages = DjangoFilterConnectionField(PageNode)
     page = graphene.Field(PageNode,
                               id=graphene.Int(),
                               url=graphene.String())
+    
+    def resolve_all_pages(self, args, context, info):
+        return Page.objects.filter(published=True)
 
     def resolve_page(self, args, context, info):
         url = args.get('url')
+        title = args.get("title")
         if url is not None:
             try:
                 page = Page.objects.get(url=url)
@@ -35,4 +41,3 @@ class Query(graphene.AbstractType):
                 else:
                     page = Page.objects.get(url="/404/")
         return page
-        return None

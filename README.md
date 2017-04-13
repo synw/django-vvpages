@@ -91,7 +91,7 @@ To use Codemirror instead of Ckeditor:
 VVPAGES_CODE_MODE = True
   ```
  
- ## Templates
+## Templates
  
 Main template:
 
@@ -107,12 +107,34 @@ Main template:
 	<a v-bind:href="adminPageUrl">Edit page</a>
 {% endif %}
   ```
- 
- ## Installer and demo
+  
+## Developement
+
+You can make your own frontend views from graphql queries.
+
+Example: filter on the title field:
+
+  ```javascript
+query {
+  allPages(title_Icontains:"home") {
+    edges {
+      node {
+        title,
+        content,
+        extraData
+      }
+    }
+  }
+}
+  ```
+
+The `Icontains` and `Istartswith` filter are available at the endpoint
+
+## Installer and demo
 
 You can use the [Django Mogo](https://github.com/synw/django-mogo) installer script to get a demo or an install
 
- ## Todo
+## Todo
  
  - [ ] Object level permissions
  - [ ] Preview before commit
