@@ -6,7 +6,6 @@ Features:
 
 - Fast: single page app with Vue.js
 - Users can choose which editor to use: Codemirror or Ckeditor
-- Easy to extend: a Graphql endpoint is available [ [cf](#developement) ]
 
 ## Install
 
@@ -45,7 +44,7 @@ urlpatterns = [
 	url(r'^ckeditor/',include('ckeditor_uploader.urls')),
 	# for dev:
 	url(r'^graphiql', GraphQLView.as_view(graphiql=True)),
-	# for production: this view protects the Graphql endpoint with a token
+	# for production: this view protects the endpoint with a token
     url(r'^graphql', TGraphQLView.as_view()),
     url(r'^pages/',include('vvpages.urls')),
 ]
@@ -107,28 +106,6 @@ Main template:
 	<a v-bind:href="adminPageUrl">Edit page</a>
 {% endif %}
   ```
-
-## Developement
-
-You can make your own frontend views from graphql queries.
-
-Example: filter on the title field:
-
-  ```javascript
-query {
-    allPages(title_Icontains:"home") {
-        edges {
-            node {
-            title,
-            content,
-            extraData
-            }
-        }
-    }
-}
-  ```
-
-The `Icontains` and `Istartswith` filter are available at the endpoint
 
 ## Installer and demo
 
