@@ -58,7 +58,7 @@ loadPage: function(url){
 		    {% else %}
 		    	app.activate(["pageContent"]);
 		    {% endif %}
-		    console.log(app.str(data));
+		    //console.log(app.str(data));
 		}
 		runQuery(q, action, error);
 		{% if storage %}
