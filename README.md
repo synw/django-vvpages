@@ -10,10 +10,9 @@ Features:
 ## Install
 
   ```bash
-pip install graphene graphene_django djangorestframework pytz django-jsonfield django-filter \
+pip install djangorestframework pytz django-jsonfield django-filter \
 django-mptt django-ckeditor django-codemirror2 django-reversion
 
-pip install git+https://github.com/synw/django-graphql-utils.git
 pip install git+https://github.com/synw/django-vitevue.git
   ```
  
@@ -21,10 +20,7 @@ INSTALLED_APPS:
 
   ```python
 "reversion",
-"graphene",
-"graphene_django",
 "restframework",
-"graphql_utils",
 "mptt",
 "ckeditor",
 "ckeditor_uploader",
@@ -36,16 +32,9 @@ INSTALLED_APPS:
 Set the urls:
 
   ```python
-from graphene_django.views import GraphQLView
-from graphql_utils.views import TGraphQLView
-
 urlpatterns = [
 	# ...	
 	url(r'^ckeditor/',include('ckeditor_uploader.urls')),
-	# for dev:
-	url(r'^graphiql', GraphQLView.as_view(graphiql=True)),
-	# for production: this view protects the endpoint with a token
-    url(r'^graphql', TGraphQLView.as_view()),
     url(r'^pages/',include('vvpages.urls')),
 ]
 
@@ -103,7 +92,7 @@ Main template:
  
    ```django
 {% if perms.vvpages.change_page %}
-	<a v-bind:href="adminPageUrl">Edit page</a>
+	<a v-bind:href="adminPageUrl" v-show="adminPageUrl">Edit page</a>
 {% endif %}
   ```
 
