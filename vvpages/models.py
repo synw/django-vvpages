@@ -6,7 +6,7 @@ from django.db.models.signals import post_save, post_delete
 from jsonfield import JSONField
 from mptt.models import TreeForeignKey, MPTTModel
 from vvpages.conf import USER_MODEL, EDITORS
-from vvpages.signals import post_process, post_process_del
+from vvpages.signals import build_assets, build_assets_del
 
 
 class Seo(models.Model):
@@ -28,7 +28,6 @@ class Page(MPTTModel, Seo):
     editor = models.ForeignKey(USER_MODEL, editable = False, related_name='+', null=True, on_delete=models.SET_NULL, verbose_name=_(u'Edited by'))   
     published = models.BooleanField(default=True, verbose_name=_(u'Published'))
     extra_data = JSONField(blank=True, default={}, verbose_name=_(u'Extra data'))
-    pageId = models.PositiveSmallIntegerField(null=True, blank=True)
     
     class Meta:
         verbose_name = _(u'Page')
@@ -47,5 +46,5 @@ class UserPreference(models.Model):
     editor = models.CharField(_(u'Editor'), max_length=60, default=EDITORS[0][0], choices=EDITORS)
 
     
-post_save.connect(post_process, sender=Page)
-post_delete.connect(post_process_del, sender=Page)
+post_save.connect(build_assets, sender=Page)
+post_delete.connect(build_assets_del, sender=Page)

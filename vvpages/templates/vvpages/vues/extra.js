@@ -1,1 +1,0 @@
-{% include "graphql_utils/methods.js" %}
