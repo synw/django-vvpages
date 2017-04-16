@@ -40,13 +40,9 @@ loadHtml: function(resturl){
 	}
 	{% endif %}
 	if (fetch === true){
-		//console.log("Fetchind data from "+resturl+" //");
-		promise.get(resturl,{},{"Accept":"application/json"}).then(function(error, data, xhr) {
-		    if (error) {
-		    	console.log('Error ' + xhr.status);return;
-		    }
-		    {% if isdebug is True %}console.log("Raw data: "+data);{% endif %}
-		    data = JSON.parse(data);
+		axios.get(resturl).then(function (response) {
+			var data = response.data;
+			{% if isdebug is True %}console.log("Raw data: "+data);{% endif %}
 			app.flush();
 			app.pageContent = data.content;
 		    top.document.title = data.title;
@@ -66,6 +62,9 @@ loadHtml: function(resturl){
 		    {% else %}
 		    	app.activate(["pageContent"]);
 		    {% endif %}
+			
+		}).catch(function (error) {
+			console.log(error);
 		});
 	} else {
 		app.flush();
@@ -81,15 +80,15 @@ loadHtml: function(resturl){
 	return
 },
 loadChunk: function (resturl, title){
-	promise.get(resturl).then(function(error, data, xhr) {
-	    if (error) {console.log('Error ' + xhr.status);return;}
-	    {% if isdebug is True %}console.log("Raw chunk: "+data);{% endif %}
-	    app.flush();
-	    app.pageContent = data;
+	axios.get(resturl).then(function (response) {
+		{% if isdebug is True %}console.log("Raw chunk: "+response.data);{% endif %}
+		app.flush();
+	    app.pageContent = response.data;
 	    top.document.title = title;
 	    app.activate(["pageContent"]);
+	}).catch(function (error) {
+		console.log(error);
 	});
-	return
 },
 {% if perms.vvpages.change_page %}postPageForm: function() {
 	if (isUrl(this.pageFormUrl) !== true) {
