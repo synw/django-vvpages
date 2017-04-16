@@ -9,7 +9,6 @@
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
 }
-
 .tree li {
 	float: left; 
 	text-align: center;
@@ -20,9 +19,6 @@
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
 }
-
-/*We will use ::before and ::after to draw the connectors*/
-
 .tree li::before, .tree li::after{
 	content: '';
 	position: absolute; top: 0; right: 50%;
@@ -33,22 +29,13 @@
 	right: auto; left: 50%;
 	border-left: 1px solid #ccc;
 }
-
-/*We need to remove left-right connectors from elements without 
-any siblings*/
 .tree li:only-child::after, .tree li:only-child::before {
 	display: none;
 }
-
-/*Remove space from the top of single children*/
 .tree li:only-child{ padding-top: 0;}
-
-/*Remove left connector from first child and 
-right connector from last child*/
 .tree li:first-child::before, .tree li:last-child::after{
 	border: 0 none;
 }
-/*Adding back the vertical connector to the last nodes*/
 .tree li:last-child::before{
 	border-right: 1px solid #ccc;
 	border-radius: 0 5px 0 0;
@@ -60,8 +47,6 @@ right connector from last child*/
 	-webkit-border-radius: 5px 0 0 0;
 	-moz-border-radius: 5px 0 0 0;
 }
-
-/*Time to add downward connectors from parents*/
 .tree ul ul::before{
 	content: '';
 	position: absolute; 
@@ -71,7 +56,6 @@ right connector from last child*/
 	width: 0; 
 	height: 20px;
 }
-
 .tree li span {
 	border: 1px solid lightgrey;
 	padding: 5px 10px;
@@ -97,9 +81,6 @@ right connector from last child*/
 	-moz-border-radius: 15px;
 	position:relative;
 	top:0.1em !important;
-}
-.abtn a, .abtn a:visited {
-	color:white !important;
 }
 .flashnode {
 	background-color:firebrick;

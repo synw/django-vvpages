@@ -96,6 +96,10 @@ Main template:
 {% endif %}
   ```
 
+## Tools
+
+A page creation wizard is available at `/pages/wizard/`
+
 ## Installer and demo
 
 You can use the [Django Mogo](https://github.com/synw/django-mogo) installer script to get a demo or an install

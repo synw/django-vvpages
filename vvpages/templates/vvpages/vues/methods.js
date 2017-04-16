@@ -91,3 +91,33 @@ loadChunk: function (resturl, title){
 	});
 	return
 },
+{% if perms.vvpages.change_page %}postPageForm: function() {
+	if (isUrl(this.pageFormUrl) !== true) {
+		alert("The url must start with /")
+		return
+	}
+	var ax = axios.create({headers: {'X-CSRFToken': csrftoken}});
+	ax({
+		method: 'post',
+		url: '{% url "vvpages-wizard-post" %}',
+		data: {
+			title: this.pageFormTitle,
+			url: this.pageFormUrl,
+			parent: this.pageFormParent
+		}
+	}).then(function (response) {
+		app.pageContent = response.data;
+		app.pageFormTitle = "";
+		app.pageFormUrl = "";
+		app.pageFormParent = "";
+		app.showPageForm = false;
+	}).catch(function (error) {
+		console.log(error);
+	});
+},
+popPageForm: function(parent) {
+	this.showPageForm = true;
+	this.pageFormParent = parent;
+	this.flush("pageContent");
+	this.activate(["showPageForm", "pageContent"]);
+},{% endif %}

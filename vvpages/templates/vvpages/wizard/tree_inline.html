@@ -1,0 +1,25 @@
+{% load staticfiles mptt_tags %}
+<link rel="stylesheet" media="screen, projection" href="{% static 'vvpages/css/tree.css' %}" />
+<div class="row">
+	<div class="col-xs-12">
+		<div class="tree">
+			<ul>
+			{% recursetree nodes %}
+		        <li>
+		        	<span id="displayzone_{{ node.pk }}">
+			        	<a href="{{ node.url }}" id="{{ node.pk }}" style="font-weight:bold">
+			            	{{ node.title }}
+			            </a><br />
+			            <a class="abtn" onclick="app.popPageForm('{{ node.url }}')">&nbsp;+&nbsp;</a>
+		            </span>
+		            {% if not node.is_leaf_node %}
+		                <ul>
+		                    {{ children }}
+		                </ul>
+		            {% endif %}
+		        </li>
+		    {% endrecursetree %}
+		    </ul>
+	    </div>
+	</div>
+</div>
