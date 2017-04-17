@@ -95,24 +95,22 @@ loadChunk: function (resturl, title){
 		alert("The url must start with /")
 		return
 	}
-	var ax = axios.create({headers: {'X-CSRFToken': csrftoken}});
-	ax({
-		method: 'post',
-		url: '{% url "vvpages-wizard-post" %}',
-		data: {
-			title: this.pageFormTitle,
-			url: this.pageFormUrl,
-			parent: this.pageFormParent
-		}
-	}).then(function (response) {
+	var data = {
+		title: this.pageFormTitle,
+		url: this.pageFormUrl,
+		parent: this.pageFormParent
+	};
+	function error(err) {
+		console.log(err)
+	}
+	function action(response) {
 		app.pageContent = response.data;
 		app.pageFormTitle = "";
 		app.pageFormUrl = "";
 		app.pageFormParent = "";
 		app.showPageForm = false;
-	}).catch(function (error) {
-		console.log(error);
-	});
+	}
+	this.postForm('{% url "vvpages-wizard-post" %}', data, action, error)
 },
 popPageForm: function(parent) {
 	this.showPageForm = true;
