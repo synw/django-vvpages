@@ -33,6 +33,9 @@ class Page(MPTTModel, Seo):
         verbose_name = _(u'Page')
         verbose_name_plural = _(u'Page')
         ordering = ['url']
+        permissions = (
+            ('edit_page', 'Edit page'),
+        )
         
     def get_absolute_url(self):
         return self.url

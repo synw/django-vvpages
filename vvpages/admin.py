@@ -6,13 +6,14 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 from reversion.admin import VersionAdmin
+from guardian.admin import GuardedModelAdmin
 from vvpages.models import Page, UserPreference
 from vvpages.forms import PageAdminWysiForm, PageAdminCodeForm
 from vvpages.conf import get_editor
 
 
 @admin.register(Page)
-class PageAdmin(MPTTModelAdmin, VersionAdmin):
+class PageAdmin(MPTTModelAdmin, VersionAdmin, GuardedModelAdmin):
     #form = PageAdminForm
     date_hierarchy = 'edited'
     search_fields = ['title','url','editor__username']

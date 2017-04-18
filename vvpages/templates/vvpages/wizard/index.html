@@ -1,39 +1,5 @@
 {% load i18n staticfiles %}
 
-		<script type="text/javascript">
-		/*$(document).ready(function(){
-		    $('#addpageform').on('submit', function(e){
-		        e.preventDefault();
-		        var val_url = $("input[name='url']").val();
-		        var title = $("input[name='title']").val();
-		        var parent = $("input[name='parent']").val();
-		        if ( val_url == "" ) {
-		        	alert("{% trans 'Please provide an url' %}")
-		        	return
-		        }
-		        if ( startsWith("/", val_url) != true ) {
-		        	alert("{% trans 'The url must start with /' %}")
-		        	return
-		        }
-		        if ( title == "" ) {
-		        	alert("{% trans 'Please provide a title' %}")
-		        	return
-		        }
-		        var params = {
-		        	"url": val_url, 
-		        	"title": title,
-		        	"parent": parent
-		        }
-		        var purl = "{% url 'vvpages-wizard-post' %}";
-		        ajaxPost(purl, params, function(content){
-		        	$("#addpageform").hide();
-		        	clean_form();
-		        	$("#treezone").html(content);
-		        });
-		    });
-		});*/
-		</script>
-
 <div id="treezone">
 	{% include "vvpages/wizard/tree_inline.html" %}
 </div>

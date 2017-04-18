@@ -22,11 +22,21 @@ INSTALLED_APPS:
 "reversion",
 "restframework",
 "mptt",
+"guardian",
 "ckeditor",
 "ckeditor_uploader",
 "codemirror2",
 "vv",
 "vvpages",
+  ```
+  
+Set the authentication backend: 
+
+  ```python
+AUTHENTICATION_BACKENDS = (
+    # ...
+    'guardian.backends.ObjectPermissionBackend',
+)
   ```
 
 Set the urls:
