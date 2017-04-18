@@ -6,6 +6,7 @@ Features:
 
 - Fast: single page app with Vue.js
 - Users can choose which editor to use: Codemirror or Ckeditor
+- Choose what pages a user or group can edit
 
 ## Install
 
@@ -84,7 +85,7 @@ CKEDITOR_CONFIGS = {
 }
   ```
 
-To use Codemirror instead of Ckeditor:
+To use Codemirror instead of Ckeditor by default:
 
   ```python
 VVPAGES_CODE_MODE = True
@@ -117,5 +118,5 @@ You can use the [Django Mogo](https://github.com/synw/django-mogo) installer scr
 
 ## Todo
  
- - [ ] Object level permissions
+ - [x] Object level permissions
  - [ ] Preview before commit
