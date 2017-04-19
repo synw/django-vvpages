@@ -1,40 +1,62 @@
 {% load vv_tags vvpages_tags %}
 {% use_local_storage as storage %}
 {% if storage %}
-	isInStorage: function(resturl) {
-		var url = store.get(resturl);
+	storeExists: function(resturl) {
+		var key = this.siteSlug+"_"+resturl;
+		var url = store.get(key);
 		if (url == undefined) {
 			return false
 		}
 		return true
 	},
-	loadFromStorage: function(resturl) {
-		var data = store.get(resturl);
+	storeGet: function(resturl) {
+		var key = this.siteSlug+"_"+resturl;
+		var data = store.get(key);
 		return data
+	},
+	storeSet: function(resturl, data) {
+		console.log("RESTURL", resturl);
+		var now = new Date();
+		var exp = new Date();
+		var mins = 1;
+		var duration = 1000*60*{% ttl %};
+		exp.setTime(now.getTime() + duration);
+		data.expires = exp;
+		var key = this.siteSlug+"_"+resturl;
+		console.log("S+U", this.siteSlug, resturl);
+		console.log("Setting key", key, "in local storage. \nExpiration:", exp);
+		store.set(key, data);
 	},
 {% endif %}
 loadHtml: function(resturl){
 	var fetch = true;
 	var data = {};
 	{% if storage %}
-	if (this.isInStorage(resturl) === true) {
-		//console.log("Data in storage: "+resturl);
-		data = this.loadFromStorage(resturl);
-		now = new Date();
-		var is_expired = false; 
-		if (data.expires < now) {
-			var is_expired = true;
+	var key = this.siteSlug+"_"+resturl;
+	if (this.storeExists(key) === true) {
+		console.log("Data in storage: "+resturl);
+		data = this.storeGet(key);
+		if (!data) {
+			console.log("No data", data);
+		}
+		var now = new Date();
+		var is_expired = false;
+		var exp = new Date(data.expires);
+		var diff = (now - exp);
+		console.log("DATE DIFF:", diff, now, exp);
+		if ( diff >= 0 ) {
+			is_expired = true;
 		}
 		if (is_expired === false) {
-			//console.log("Data not expired");
+			console.log("Data not expired\nExpiration:", data.expires);
 			fetch = false;
 		} else {
-			//console.log("Data expired");
+			console.log("Data expired");
 			if (navigator.onLine === false) {
 				fetch = false;
-				//console.log("Navigator not online");
+				console.log("Navigator not online");
 			} else {
-				//console.log("Navigator online");
+				console.log("Navigator online");
 			}
 		}
 	}
@@ -47,14 +69,10 @@ loadHtml: function(resturl){
 			app.pageContent = data.content;
 		    top.document.title = data.title;
 			{% if storage %}
-				var now = new Date();
-				var exp = new Date();
-				var mins = 1;
-				var duration = 1000*60*mins;
-				exp.setTime(now.getTime() + (duration));
-				data.expires = exp;
-				//console.log("Setting key in local storage");
-				store.set(resturl, data);
+			console.log("SLUG", app.siteSlug);
+				var key = app.siteSlug+"_"+resturl;	
+				console.log("K", app.siteSlug, key);
+				app.storeSet(key, data);
 			{% endif %}
 			{% if perms.vvpages.change_page %}
 		    	app.adminPageUrl ="/admin/vvpages/page/"+data.pk+"/change/";

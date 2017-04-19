@@ -4,9 +4,9 @@ Vue.js pages management for [Django Vite Vue](https://github.com/synw/django-vit
 
 Features:
 
-- Fast: single page app with Vue.js
-- Users can choose which editor to use: Codemirror or Ckeditor
-- Choose what pages a user or group can edit
+- Fast: single page app with Vue.js on the frontend
+- Flexible: users can choose which editor to use: Codemirror or Ckeditor, admins can choose who can edit what pages
+- Mobile friendly: client side cache and offline mode (optional)
 
 ## Install
 
@@ -60,6 +60,8 @@ Import the necessary js libs in head:
 <script type="text/javascript" src="{% static 'js/vue.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/axios.min.js' %}"></script>
+<!-- if you want to use local storage : -->
+<script type="text/javascript" src="{% static 'js/store.legacy.min.js' %}"></script>
   ```
 Migrate
 
@@ -90,7 +92,22 @@ To use Codemirror instead of Ckeditor by default:
   ```python
 VVPAGES_CODE_MODE = True
   ```
- 
+
+## Client cache
+
+The is an option to use the client local storage to cache pages. This make the data available on the 
+client even if it is offline. To enable it use the setting:
+
+  ```python
+VVPAGES_LOCAL_STORAGE = True
+VVPAGES_TTL = 180
+  ```
+  
+The ``VVPAGES_TTL` is optional: this is the number of minutes the cache key will be retained in local storage before
+trying to refetch fresh data from the server. Default is set to 60.
+
+Warning: only use this option if you eventual consistency is ok for you
+
 ## Templates
  
 Main template:

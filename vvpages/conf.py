@@ -4,6 +4,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 
+SITE_SLUG = getattr(settings, 'SITE_SLUG')
+
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
 
 USE_REVERSION=getattr(settings, 'VVPAGES_USE_REVERSION', "reversion" in settings.INSTALLED_APPS)
@@ -25,3 +27,4 @@ def get_editor():
         return "ckeditor"
 
 LOCAL_STORAGE = getattr(settings, 'VVPAGES_LOCAL_STORAGE', False)
+TTL = getattr(settings, 'VVPAGES_TTL', 60)
