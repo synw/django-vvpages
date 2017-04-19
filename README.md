@@ -138,3 +138,4 @@ You can use the [Django Mogo](https://github.com/synw/django-mogo) installer scr
  
  - [x] Object level permissions
  - [ ] Preview before commit
+ - [ ] Client side cache invalidation mechanism
