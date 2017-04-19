@@ -94,21 +94,6 @@ To use Codemirror instead of Ckeditor by default:
 VVPAGES_CODE_MODE = True
   ```
 
-## Client cache
-
-The is an option to use the client local storage to cache pages. This make the data available on the 
-client even if it is offline. To enable it use the setting:
-
-  ```python
-VVPAGES_LOCAL_STORAGE = True
-VVPAGES_TTL = 180
-  ```
-  
-The `VVPAGES_TTL` is optional: this is the number of minutes the cache key will be retained in local storage before
-trying to refetch fresh data from the server. Default is set to 60.
-
-Warning: only use this option if you eventual consistency is ok for you
-
 ## Templates
  
 Main template:
@@ -125,6 +110,21 @@ Main template:
 	<a v-bind:href="adminPageUrl" v-show="adminPageUrl">Edit page</a>
 {% endif %}
   ```
+
+## Client cache
+
+The is an option to use the client local storage to cache pages. This makes the data available on the 
+client even if it is offline. To enable it use the setting:
+
+  ```python
+VVPAGES_LOCAL_STORAGE = True
+VVPAGES_TTL = 180
+  ```
+  
+The `VVPAGES_TTL` is optional: this is the number of minutes the cache key will be retained in local storage before
+trying to refetch fresh data from the server. Default is set to 60.
+
+Use this option if you are ok with the eventual consistency tradeoff
 
 ## Tools
 
