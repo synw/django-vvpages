@@ -15,7 +15,7 @@
 		return data
 	},
 	storeSet: function(resturl, data) {
-		console.log("RESTURL", resturl);
+		//console.log("RESTURL", resturl);
 		var now = new Date();
 		var exp = new Date();
 		var mins = 1;
@@ -23,8 +23,8 @@
 		exp.setTime(now.getTime() + duration);
 		data.expires = exp;
 		var key = this.siteSlug+"_"+resturl;
-		console.log("S+U", this.siteSlug, resturl);
-		console.log("Setting key", key, "in local storage. \nExpiration:", exp);
+		//console.log("S+U", this.siteSlug, resturl);
+		//console.log("Setting key", key, "in local storage. \nExpiration:", exp);
 		store.set(key, data);
 	},
 {% endif %}
@@ -34,29 +34,30 @@ loadHtml: function(resturl){
 	{% if storage %}
 	var key = this.siteSlug+"_"+resturl;
 	if (this.storeExists(key) === true) {
-		console.log("Data in storage: "+resturl);
+		//console.log("Data in storage: "+resturl);
 		data = this.storeGet(key);
 		if (!data) {
-			console.log("No data", data);
+			//console.log("No data", data);
 		}
 		var now = new Date();
 		var is_expired = false;
 		var exp = new Date(data.expires);
 		var diff = (now - exp);
-		console.log("DATE DIFF:", diff, now, exp);
+		//console.log("DATE DIFF:", diff, now, exp);
 		if ( diff >= 0 ) {
 			is_expired = true;
+			store.remove(key);
 		}
 		if (is_expired === false) {
-			console.log("Data not expired\nExpiration:", data.expires);
+			//console.log("Data not expired\nExpiration:", data.expires);
 			fetch = false;
 		} else {
-			console.log("Data expired");
+			//console.log("Data expired");
 			if (navigator.onLine === false) {
 				fetch = false;
-				console.log("Navigator not online");
+				//console.log("Navigator not online");
 			} else {
-				console.log("Navigator online");
+				//console.log("Navigator online");
 			}
 		}
 	}
@@ -64,14 +65,14 @@ loadHtml: function(resturl){
 	if (fetch === true){
 		axios.get(resturl).then(function (response) {
 			var data = response.data;
-			{% if isdebug is True %}console.log("Raw data: "+data);{% endif %}
+			{% if isdebug is True %}//console.log("Raw data: "+data);{% endif %}
 			app.flush();
 			app.pageContent = data.content;
 		    top.document.title = data.title;
 			{% if storage %}
-			console.log("SLUG", app.siteSlug);
+			//console.log("SLUG", app.siteSlug);
 				var key = app.siteSlug+"_"+resturl;	
-				console.log("K", app.siteSlug, key);
+				//console.log("K", app.siteSlug, key);
 				app.storeSet(key, data);
 			{% endif %}
 			{% if perms.vvpages.change_page %}
@@ -82,7 +83,7 @@ loadHtml: function(resturl){
 		    {% endif %}
 			
 		}).catch(function (error) {
-			console.log(error);
+			//console.log(error);
 		});
 	} else {
 		app.flush();
@@ -99,13 +100,13 @@ loadHtml: function(resturl){
 },
 loadChunk: function (resturl, title){
 	axios.get(resturl).then(function (response) {
-		{% if isdebug is True %}console.log("Raw chunk: "+response.data);{% endif %}
+		{% if isdebug is True %}//console.log("Raw chunk: "+response.data);{% endif %}
 		app.flush();
 	    app.pageContent = response.data;
 	    top.document.title = title;
 	    app.activate(["pageContent"]);
 	}).catch(function (error) {
-		console.log(error);
+		//console.log(error);
 	});
 },
 {% if perms.vvpages.change_page %}postPageForm: function() {
