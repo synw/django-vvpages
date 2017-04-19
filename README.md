@@ -15,6 +15,7 @@ pip install djangorestframework pytz django-jsonfield django-filter \
 django-mptt django-ckeditor django-codemirror2 django-reversion
 
 pip install git+https://github.com/synw/django-vitevue.git
+pip install git+https://github.com/synw/django-vvpages.git
   ```
  
 INSTALLED_APPS:
