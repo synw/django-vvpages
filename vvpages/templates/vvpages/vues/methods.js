@@ -29,6 +29,7 @@
 	},
 {% endif %}
 loadHtml: function(resturl){
+	if (vvDebug === true) {console.log("%%%%%%%%%%%%%% loading", resturl+"%%%%%%%%%%%%%%")};
 	var fetch = true;
 	var data = {};
 	{% if storage %}
