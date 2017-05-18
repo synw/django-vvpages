@@ -1,16 +1,12 @@
 {% load i18n %}
 {% if perms.vvpages.change_page %}
-<form class="form-inline" id="addpageform" method="post" style="display:none;margin-top:1em" onsubmit="return false;" v-show="showPageForm">
+<form id="addpageform" method="post" style="display:none;margin-top:1em" onsubmit="return false;" v-show="showPageForm">
 	<div class="form-group">
 		{% trans "Parent" %}: <input class="form-control" type="text" name="parent" placeholder="Parent" v-model="pageFormParent" disabled />
-		<input class="form-control" type="text" name="title" placeholder="Title" v-model="pageFormTitle" />
-		<input class="form-control" type="text" name="url" placeholder="Url" v-model="pageFormUrl" />
+		<input type="text" name="title" placeholder="Title" v-model="pageFormTitle" />
+		<input type="text" name="url" placeholder="Url" v-model="pageFormUrl" />
 		<input class="btn btn-primary" style="display:inline" type="submit" @click="postPageForm()" value="{% trans 'Create page' %}" />
 	</div>
 </form>
 {% endif %}
-<div class="row" v-show="isActive('pageContent')">
-	<div class="col-xs-12">
-		<div id="content" v-html="pageContent"></div>
-	</div>
-</div>
+<div id="content" v-html="pageContent" v-show="isActive('pageContent')"></div>
