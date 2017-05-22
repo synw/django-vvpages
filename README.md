@@ -128,7 +128,20 @@ Use this option if you are ok with the eventual consistency tradeoff
 
 ## Tools
 
-A page creation wizard is available at `/pages/wizard/`
+A page creation wizard is available at `/pages/wizard/`. A button is also available to link to edit view in admin:
+
+   ```django
+{% if perms.vvpages.change_page %}
+	<a v-bind:href="adminPageUrl">
+		<i class="fa fa-edit"></i>&nbsp;{% trans 'Edit' %}
+	</a>
+{% endif %}
+{% if perms.vvpages.create_page %}
+	<a href="/pages/wizard/">
+		<i class="fa fa-edit"></i>&nbsp;{% trans 'Wizard' %}
+	</a>
+{% endif %}
+  ```
 
 ## Installer and demo
 
